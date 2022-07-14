@@ -118,10 +118,65 @@ if not ownedTycoon then
     end
 end
 
+task.spawn(function()
+    xpcall(function()
+        while true do
+            fullNoClip = true
+            if not autoFarmToggle then
+                fullNoClip = false
+                
+                for i,v in next, badParts do
+                    v.CanCollide = badPartsCollide[v] or true
+                    badParts[i] = nil
+                end
+                
+                repeat task.wait() 
+                until autoFarmToggle
+            end
+        
+            -- Auto TP to Buttons
+            if not noItsMyTurn and hasChar() then
+                player.Character:SetPrimaryPartCFrame(ownedTycoon.Interact.Factory.Click.Part.CFrame * CFrame.new(0, -5, 0))
+                if not isInSession then
+                    isInSession = true
+                    
+                    task.delay(.1, function()
+                        isInSession = false
+                        noItsMyTurn = true
+                    end)
+                end
+            elseif noItsMyTurn and hasChar() then
+                player.Character:SetPrimaryPartCFrame(ownedTycoon.Interact.Guminator.Click.Part.CFrame * CFrame.new(0, -5, 0))
+                if not isInSession then
+                    isInSession = true
+                    
+                    task.spawn(function()
+                        while true do
+                            local a = false
+                            for i,v in next, ownedTycoon.Interact.Factory.Click.Model:GetChildren() do
+                                if v.BrickColor == BrickColor.new("Bright green") then
+                                    a = true
+                                    break 
+                                end
+                            end
+                            if a then break end
+                            task.wait()
+                        end
+                        isInSession = false
+                        noItsMyTurn = false
+                    end)
+                end
+            end
+            task.wait()
+        end
+    end, function(...)
+        print(...)
+    end)
+end)
+
 xpcall(function()
     while true do
         fullNoClip = true
-        if hasChar() then player.Character.HumanoidRootPart.Anchored = true end -- So I don't fall into the void
         if not autoFarmToggle then
             fullNoClip = false
             
@@ -130,45 +185,8 @@ xpcall(function()
                 badParts[i] = nil
             end
             
-            if hasChar() then player.Character.HumanoidRootPart.Anchored = false end
             repeat task.wait() 
             until autoFarmToggle
-        end
-        
-        -- Auto TP to Buttons
-        if not noItsMyTurn and hasChar() then
-            player.Character.HumanoidRootPart.Anchored = false -- Game checks if your HRP is anchored before letting you open the gate ( On the Server )
-            player.Character:SetPrimaryPartCFrame(ownedTycoon.Interact.Factory.Click.Part.CFrame * CFrame.new(0, -5, 0))
-            if not isInSession then
-                isInSession = true
-                
-                task.delay(.1, function()
-                    if hasChar() then player.Character.HumanoidRootPart.Anchored = true end
-                    isInSession = false
-                    noItsMyTurn = true
-                end)
-            end
-        elseif noItsMyTurn and hasChar() then
-            player.Character:SetPrimaryPartCFrame(ownedTycoon.Interact.Guminator.Click.Part.CFrame * CFrame.new(0, -5, 0))
-            if not isInSession then
-                isInSession = true
-                
-                task.spawn(function()
-                    while true do
-                        local a = false
-                        for i,v in next, ownedTycoon.Interact.Factory.Click.Model:GetChildren() do
-                            if v.BrickColor == BrickColor.new("Bright green") then
-                                a = true
-                                break 
-                            end
-                        end
-                        if a then break end
-                        task.wait()
-                    end
-                    isInSession = false
-                    noItsMyTurn = false
-                end)
-            end
         end
         
         -- Auto Click Near Proximities
