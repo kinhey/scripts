@@ -31,6 +31,35 @@ local function hasChar()
     return false
 end
 
+local function setMoney()
+    local value = moneyValue.Value
+    if string.find(value, ".") then
+        local M, B, T = 1000000, 1000000000, 1000000000000
+        if string.find(value, "M") then
+            local realValue = string.sub(value, 1, string.find(value, "M") - 1)
+            
+            currentMoney = tonumber(realValue) * M
+
+            return
+        elseif string.find(value, "B") then
+            local realValue = string.sub(value, 1, string.find(value, "B") - 1)
+            
+            currentMoney = tonumber(realValue) * B
+            
+            return
+        elseif string.find(value, "T") then
+            local realValue = string.sub(value, 1, string.find(value, "T") - 1)
+            
+            currentMoney = tonumber(realValue) * T
+            
+            return
+        end
+    end
+    
+    currentMoney = string.gsub(moneyValue.Value, ",", "")
+    currentMoney = tonumber(currentMoney)
+end
+
 if hasChar() then
     for i,v in next, player.Character:GetChildren() do
         if v:IsA("MeshPart") then
@@ -150,8 +179,7 @@ xpcall(function()
         
         -- Auto Buy Upgrades
         for _,btn in next, ownedTycoon.Buttons:GetChildren() do
-            currentMoney = string.gsub(moneyValue.Value, ",", "")
-            currentMoney = tonumber(currentMoney)
+            setMoney()
             if btn:IsA("Folder") then
                 for _,BTN in next, btn:GetChildren() do
                     if BTN:FindFirstChild("Value") and BTN.Value.Value <= currentMoney and not BTN:FindFirstChild("Robux") then
