@@ -125,11 +125,6 @@ task.spawn(function()
             if not autoFarmToggle then
                 fullNoClip = false
                 
-                for i,v in next, badParts do
-                    v.CanCollide = badPartsCollide[v] or true
-                    badParts[i] = nil
-                end
-                
                 repeat task.wait() 
                 until autoFarmToggle
             end
