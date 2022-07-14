@@ -156,6 +156,17 @@ xpcall(function()
                 task.spawn(function()
                     repeat task.wait() 
                     until ownedTycoon.Interact.Factory.Click.Model:GetChildren()[2].BrickColor == BrickColor.new("Bright green")
+                    while true do
+                        local a = false
+                        for i,v in next, ownedTycoon.Interact.Factory.Click.Model:GetChildren() do
+                            if v.BrickColor == BrickColor.new("Bright green") then
+                                a = true
+                                break 
+                            end
+                        end
+                        if a then break end
+                        task.wait()
+                    end
                     isInSession = false
                     noItsMyTurn = false
                 end)
