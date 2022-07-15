@@ -135,7 +135,7 @@ task.spawn(function()
                 if not isInSession then
                     isInSession = true
                     
-                    task.delay(.1, function()
+                    task.delay(.25, function()
                         isInSession = false
                         noItsMyTurn = true
                     end)
@@ -188,6 +188,15 @@ xpcall(function()
         virtualInput:SendKeyEvent(true, "E", false, nil)
         task.wait()
         virtualInput:SendKeyEvent(false, "E", false, nil)
+        
+        -- Auto Collect Fruits
+        local gumballTree = ownedTycoon:FindFirstChild("GumballTree")
+
+        if gumballTree then
+            for _,gum in next, gumballTree:GetChildren() do
+                fireinterest(gum)
+            end
+        end
         
         -- Auto Complete Hard Obby
         if not hardObbyWin.Parent.WaitTime.CanCollide then
