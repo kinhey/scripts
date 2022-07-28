@@ -7,7 +7,7 @@ _G.ran = true
 local oldHttpGet; oldHttpGet = hookfunc(game.HttpGet, function(...)
     local Link = ({...})[2]
     if checkcaller() and Link == "https://kinpasted.000webhostapp.com/libraries/janlib.lua" then
-        return game:HttpGetAsync("https://raw.githubusercontent.com/kinhey/scripts/main/janlib.lua")("Lightsaber Arena")
+        return game:HttpGetAsync("https://raw.githubusercontent.com/kinhey/scripts/main/janlib.lua")("Lightsaber Arena") -- im not buying another luraph token just for this fix
     end
     
     return oldHttpGet(...)
