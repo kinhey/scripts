@@ -1,9 +1,3 @@
--- synapse x only
--- if you remove the syn check it'll only error internally lol!
-
--- run this script BEFORE you run any other script
--- run this script BEFORE you run any other script
-
 if not syn or not is_synapse_function(print) then return end
 
 local alreadyDid = false
@@ -15,7 +9,7 @@ local oldNameCall; oldNameCall = hookmetamethod(game, "__namecall", function(sel
         alreadyDid = true
         setnamecallmethod("HttpGetAsync")
         
-        Args[1] = "https://raw.githubusercontent.com/kinhey/scripts/main/janlib.lua" -- im not paying for another luraph token just to fix this issue
+        Args[1] = "https://raw.githubusercontent.com/kinhey/scripts/main/janlib.lua"
 
     end
     
